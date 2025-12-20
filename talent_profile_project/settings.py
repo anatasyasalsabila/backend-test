@@ -180,7 +180,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'talent_profile.Mahasiswa'
 
 CORS_ALLOWED_ORIGINS = [
-    "https://talenthub-deploy-qka741620-anastasya-projects-5a6537db.vercel.app",
+    "talenthub-deploy.vercel.app",
     "http://localhost:5173",
 ]
 
