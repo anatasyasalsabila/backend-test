@@ -1,1 +1,1 @@
-web: gunicorn projectname.wsgi
+web: gunicorn talent_profile_project.wsgi
