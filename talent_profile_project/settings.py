@@ -31,8 +31,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-secret")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = [
-     "web-production-7fa5e.up.railway.app",
+    "web-production-7fa5e.up.railway.app",
+    ".railway.app",
 ]
 
 
@@ -71,10 +73,8 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# Konfigurasi CORS
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173", 
-]
+#
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -179,4 +179,31 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'talent_profile.Mahasiswa'
 
+CORS_ALLOWED_ORIGINS = [
+    "https://talenthub-deploy-qka741620-anastasya-projects-5a6537db.vercel.app",
+    "http://localhost:5173",
+]
 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https:\/\/.*\.vercel\.app$",
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "authorization",
+    "content-type",
+    "origin",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+CORS_ALLOW_CREDENTIALS = True
