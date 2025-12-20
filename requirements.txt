@@ -11,3 +11,5 @@ sqlparse==0.5.4
 tzdata==2025.3
 xhtml2pdf
 gunicorn==22.0.0
+dj-database-url
+psycopg2-binary
