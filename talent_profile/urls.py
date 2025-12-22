@@ -14,8 +14,9 @@ from .views import (
     PublicTalentDetailView,
     LatestTalentView
 )
-
 from .views import DownloadCVView
+from .views import activate_talent
+
 
 router = DefaultRouter()
 router.register(r'skills', SkillViewSet, basename='skill')
@@ -27,6 +28,7 @@ urlpatterns = [
     path('mahasiswa/profile/me', MyProfileView.as_view(), name='my-profile'),
     path('', include(router.urls)),
     path('talents', PublicTalentListView.as_view()),
+    path('activate/', activate_talent),
     path('talents/latest', LatestTalentView.as_view()),
     path('talents/<int:pk>', PublicTalentDetailView.as_view()),
     path('profile/me', MyProfileView.as_view()),

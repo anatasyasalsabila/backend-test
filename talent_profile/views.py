@@ -4,6 +4,7 @@ from rest_framework import status, viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from .models import Skill, Experience, Portfolio, Mahasiswa
+from rest_framework.decorators import api_view, permission_classes
 from .serializers import (
     RegisterSerializer, 
     MahasiswaProfileSerializer,
@@ -15,11 +16,9 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
-
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-
 from .models import Mahasiswa
 # Public Talent API endpoints
 
@@ -56,35 +55,6 @@ class BaseUserItemViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(mahasiswa=self.request.user)
 
-# --- 4. endpoint Login
-# class LoginView(APIView):
-#     authentication_classes = []
-#     permission_classes = []
-
-#     def post(self, request):
-#         username = request.data.get("email")
-#         password = request.data.get("password")
-
-#         if not username or not password:
-#             return Response(
-#                 {"detail": "email dan password wajib"},
-#                 status=status.HTTP_400_BAD_REQUEST
-#             )
-
-#         user = authenticate(email=email, password=password)
-
-#         if user is None:
-#             return Response(
-#                 {"detail": "email atau password salah"},
-#                 status=status.HTTP_401_UNAUTHORIZED
-#             )
-
-#         refresh = RefreshToken.for_user(user)
-
-#         return Response({
-#             "access": str(refresh.access_token),
-#             "refresh": str(refresh),
-#         })
 
 class LoginView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -176,3 +146,16 @@ class DownloadCVView(APIView):
             return HttpResponse("Gagal generate PDF", status=500)
 
         return response
+    
+# --- 6. Activate Talent Profile ---
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def activate_talent(request):
+    user = request.user
+    user.is_active_talent = True
+    user.save()
+
+    return Response(
+        {"message": "Talent berhasil diaktifkan"},
+        status=status.HTTP_200_OK
+    )

@@ -33,6 +33,8 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     "web-production-7fa5e.up.railway.app",
     ".railway.app",
 ]
@@ -122,13 +124,27 @@ WSGI_APPLICATION = 'talent_profile_project.wsgi.application'
 #         'PORT': os.getenv('DB_PORT'),
 #     }
 # }
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+if os.getenv("DATABASE_URL"):
+    # === PRODUCTION (Railway / Render / dll) ===
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    # === LOCAL DEVELOPMENT ===
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME', 'talent_db'),
+            'USER': os.getenv('DB_USER', 'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
+    }
+
 
 
 
@@ -180,7 +196,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'talent_profile.Mahasiswa'
 
 CORS_ALLOWED_ORIGINS = [
-    "talenthub-deploy.vercel.app",
+    "https://talenthub-deploy.vercel.app",
     "http://localhost:5173",
 ]
 

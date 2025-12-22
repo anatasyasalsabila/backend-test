@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/auth/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/', include('talent_profile.urls')), 
+    path('api/talent/', include('talent_profile.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

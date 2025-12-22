@@ -69,3 +69,4 @@ class MahasiswaProfileSerializer(serializers.ModelSerializer):
             'is_active_talent', 'skills', 'experiences', 'portfolios' # Tambahkan fields relasi
         )
         read_only_fields = ('email', 'username', 'is_active_talent')
+
