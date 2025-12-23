@@ -15,8 +15,7 @@ from .views import (
     LatestTalentView
 )
 from .views import DownloadCVView
-from .views import activate_talent
-
+from .views import toggle_talent_activation
 
 router = DefaultRouter()
 router.register(r'skills', SkillViewSet, basename='skill')
@@ -28,9 +27,10 @@ urlpatterns = [
     path('mahasiswa/profile/me', MyProfileView.as_view(), name='my-profile'),
     path('', include(router.urls)),
     path('talents', PublicTalentListView.as_view()),
-    path('activate/', activate_talent),
     path('talents/latest', LatestTalentView.as_view()),
     path('talents/<int:pk>', PublicTalentDetailView.as_view()),
     path('profile/me', MyProfileView.as_view()),
     path('profile/me/download-cv', DownloadCVView.as_view(), name='download-cv'),
+    path("profile/me/toggle-activation/", toggle_talent_activation),
+
 ]

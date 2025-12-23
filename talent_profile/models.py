@@ -5,6 +5,11 @@ class Mahasiswa(AbstractUser):
     # Default fields: username, email, first_name, last_name, password
     email = models.EmailField(unique=True) 
     prodi = models.CharField(max_length=100, blank=True)
+    def save(self, *args, **kwargs):
+        if self.prodi:
+            self.prodi = self.prodi.strip().title()
+        super().save(*args, **kwargs)
+
     bio = models.TextField(blank=True)
     foto_profil = models.ImageField(upload_to='profiles/', blank=True, null=True)
     is_active_talent = models.BooleanField(default=False) 

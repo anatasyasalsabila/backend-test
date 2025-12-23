@@ -148,14 +148,22 @@ class DownloadCVView(APIView):
         return response
     
 # --- 6. Activate Talent Profile ---
-@api_view(['POST'])
+@api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
-def activate_talent(request):
+def toggle_talent_activation(request):
     user = request.user
-    user.is_active_talent = True
+
+    if not user.is_active_talent:
+        if not user.skills.exists() or not user.experiences.exists():
+            return Response(
+                {"detail": "Lengkapi skill dan experience terlebih dahulu"},
+                status=400
+            )
+
+    user.is_active_talent = not user.is_active_talent
     user.save()
 
-    return Response(
-        {"message": "Talent berhasil diaktifkan"},
-        status=status.HTTP_200_OK
-    )
+    return Response({
+        "is_active_talent": user.is_active_talent
+    })
+
